@@ -1,54 +1,71 @@
 import random
 from datetime import datetime
 
-from flask import Flask, jsonify, render_template_string
+from flask import Flask, render_template_string
 
 app = Flask(__name__)
 
 
-FACTS = [
-    "Flask's name is a playful nod to another microframework called Bottle.",
-    "Werkzeug, one of Flask's core libraries, literally means 'toolbox' in German.",
-    "Jinja2 templates are inspired by Django's templating engine and are named after a Japanese temple.",
-    "Python itself was named after the comedy troupe Monty Python, not the snake.",
-    "Flask's debugger lets you inspect live state right inside the browser during development.",
-    "Despite being micro, Flask scales by leaning on extensions for databases, auth, and caching.",
+RICK_GIFS = [
+    "https://media.giphy.com/media/Vuw9m5wXviFIQ/giphy.gif",
+    "https://media.giphy.com/media/GR2bO75ZtH2wI/giphy.gif",
+    "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif",
+    "https://media.giphy.com/media/LHZyixOnHwDDy/giphy.gif",
+    "https://media.giphy.com/media/fqTuThV8cqqNa/giphy.gif",
 ]
 
-ACHIEVEMENTS = [
-    "Animated UI rendered straight from Flask - no front-end build step required.",
-    "Live clock, random fact generator, and neon styling generated on the fly.",
-    "Custom API endpoint powers the interactive experience without extra files.",
+BACKDROPS = [
+    "linear-gradient(135deg, #091236, #1E215D, #5D2F90)",
+    "linear-gradient(140deg, #1b2735, #090a0f, #1f4037)",
+    "linear-gradient(135deg, #0f0c29, #302b63, #24243e)",
+    "linear-gradient(135deg, #360033, #0b8793)",
+    "linear-gradient(120deg, #3a1c71, #d76d77, #ffaf7b)",
 ]
 
-TECH_STACK = [
-    "Flask",
-    "Python 3",
-    "Werkzeug",
-    "Jinja2",
-    "HTML5 + CSS3 + JavaScript",
+NEON_COLORS = ["#ff4ecd", "#48e0ff", "#ffe066", "#7cf57d", "#ff9671"]
+
+STAGE_TITLES = [
+    "Neon Roller Rink",
+    "Infinite Rick Loop",
+    "Retro Wave Lounge",
+    "Pixel Disco Dome",
+    "Turbo Groove Atrium",
 ]
 
-GRADIENTS = [
-    "linear-gradient(135deg, #0f2027, #203a43, #2c5364)",
-    "linear-gradient(135deg, #03001e, #7303c0, #ec38bc, #fdeff9)",
-    "linear-gradient(120deg, #1f4037, #99f2c8)",
-    "linear-gradient(130deg, #141e30, #243b55)",
-    "linear-gradient(135deg, #5f0a87, #a4508b)",
+LYRIC_SNIPPETS = [
+    "Never gonna give you up",
+    "Never gonna let you down",
+    "Never gonna run around",
+    "Never gonna desert you",
+    "Never gonna make you cry",
+    "Never gonna say goodbye",
 ]
 
-ACCENT_COLORS = ["#64ffda", "#ffd166", "#ff6ec7", "#7cf4ff", "#a0ff8f"]
+CLONE_COUNT = 15
 
-MOODS = ["Curious", "Inventive", "Bold", "Playful", "Optimistic"]
+
+def build_clones(count):
+    clones = []
+    for index in range(count):
+        clones.append(
+            {
+                "gif": random.choice(RICK_GIFS),
+                "delay": round(index * 0.12, 2),
+                "scale": round(random.uniform(0.75, 1.25), 2),
+                "hue": random.randint(-30, 30),
+                "offset": random.randint(-18, 18),
+            }
+        )
+    return clones
 
 
 @app.route("/")
-def home():
-    gradient = random.choice(GRADIENTS)
-    accent = random.choice(ACCENT_COLORS)
-    fact = random.choice(FACTS)
-    mood = random.choice(MOODS)
-    timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+def dance_floor():
+    gradient = random.choice(BACKDROPS)
+    accent = random.choice(NEON_COLORS)
+    stage_name = random.choice(STAGE_TITLES)
+    clones = build_clones(CLONE_COUNT)
+    lyric_choices = random.sample(LYRIC_SNIPPETS, k=min(4, len(LYRIC_SNIPPETS)))
 
     return render_template_string(
         """
@@ -56,14 +73,10 @@ def home():
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Flask Cosmic Dashboard</title>
+    <title>Ultimate Rick Roll Stage</title>
     <style>
         :root {
             --accent: {{ accent }};
-            --glass: rgba(255, 255, 255, 0.08);
-            --card-bg: rgba(9, 17, 31, 0.8);
-            --text-main: #f5f7ff;
-            --text-soft: rgba(245, 247, 255, 0.7);
         }
 
         * {
@@ -78,10 +91,10 @@ def home():
             justify-content: center;
             padding: 40px;
             font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-            color: var(--text-main);
+            color: #fdfdfd;
             background: {{ gradient }};
-            background-size: 320% 320%;
-            animation: gradientShift 20s ease infinite;
+            background-size: 280% 280%;
+            animation: gradient-shift 18s ease infinite;
             overflow: hidden;
         }
 
@@ -89,224 +102,195 @@ def home():
         body::after {
             content: "";
             position: absolute;
-            width: 420px;
-            height: 420px;
+            width: 520px;
+            height: 520px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0));
-            filter: blur(8px);
-            opacity: 0.45;
-            animation: float 18s ease-in-out infinite;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
+            filter: blur(12px);
+            opacity: 0.35;
+            animation: float 22s ease-in-out infinite;
         }
 
         body::before {
-            top: -160px;
-            right: -120px;
+            top: -200px;
+            right: -160px;
         }
 
         body::after {
-            bottom: -160px;
-            left: -120px;
-            animation-delay: 4s;
+            bottom: -220px;
+            left: -140px;
+            animation-delay: 5s;
         }
 
         main {
+            position: relative;
             z-index: 2;
-            width: min(900px, 100%);
+            width: min(1100px, 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 34px;
         }
 
-        .card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 28px;
-            padding: 40px;
-            box-shadow: 0 40px 80px rgba(8, 15, 35, 0.65);
-            backdrop-filter: blur(14px);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: "";
-            position: absolute;
-            inset: -120px;
-            background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.35), transparent 60%);
-            opacity: 0.6;
-        }
-
-        .card::after {
-            content: "";
-            position: absolute;
-            inset: -140px;
-            background: radial-gradient(circle at bottom left, rgba(255, 255, 255, 0.22), transparent 65%);
-            opacity: 0.5;
-            transform: rotate(12deg);
-        }
-
-        header {
-            position: relative;
-            z-index: 1;
+        .hero {
+            background: rgba(4, 12, 28, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 32px;
+            padding: 32px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 45px 85px rgba(7, 10, 30, 0.7);
         }
 
         h1 {
-            font-size: 2.8rem;
             margin: 0;
-            letter-spacing: 1.2px;
+            font-size: 3rem;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            text-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         #tagline {
-            margin: 12px 0 24px;
-            font-size: 1.08rem;
-            color: var(--text-soft);
+            margin: 16px 0 24px;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.75);
             letter-spacing: 0.6px;
         }
 
-        .status {
-            display: grid;
-            gap: 18px;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
+        .ticker {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 24px;
         }
 
-        .stat-block {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 18px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 18px 40px rgba(7, 19, 35, 0.35);
-            transition: transform 0.6s ease;
-        }
-
-        .stat-block:hover {
-            transform: translateY(-6px) scale(1.01);
-        }
-
-        .stat-label {
+        .ticker span {
+            padding: 10px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
-            font-size: 0.7rem;
-            letter-spacing: 1.6px;
-            color: var(--text-soft);
+            animation: pop 2.4s ease-in-out infinite;
         }
 
-        .stat-value {
-            display: block;
-            margin-top: 10px;
-            font-size: 1.3rem;
-            font-weight: 600;
+        .ticker span:nth-child(odd) {
+            animation-delay: 0.6s;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .badge {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.16);
             letter-spacing: 0.4px;
-        }
-
-        .fact {
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 20px;
-            padding: 26px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            margin-bottom: 30px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .fact h2,
-        .tech h2,
-        .achievements h2 {
-            margin-top: 0;
-            font-size: 1.4rem;
-            letter-spacing: 0.8px;
-        }
-
-        .fact p {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            margin-bottom: 18px;
+            font-weight: 600;
         }
 
         button {
             background: var(--accent);
+            color: #050505;
             border: none;
-            color: #031121;
-            font-size: 0.95rem;
-            font-weight: 600;
-            padding: 12px 22px;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            padding: 12px 26px;
             border-radius: 999px;
             cursor: pointer;
+            box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         button:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 24px 38px rgba(0, 0, 0, 0.4);
         }
 
         button:disabled {
-            opacity: 0.6;
+            opacity: 0.7;
             cursor: progress;
         }
 
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .chip {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 999px;
-            padding: 10px 18px;
-            font-size: 0.85rem;
+        .timestamp {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.68);
             letter-spacing: 0.4px;
-            backdrop-filter: blur(6px);
         }
 
-        .achievements ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
+        .grid {
             display: grid;
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 24px;
         }
 
-        .achievements li {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 16px 18px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            letter-spacing: 0.4px;
-        }
-
-        footer {
-            margin-top: 30px;
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            font-size: 0.85rem;
-            color: var(--text-soft);
+        .clone {
             position: relative;
-            z-index: 1;
+            height: 260px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 28px 60px rgba(3, 6, 20, 0.65);
+            background-size: cover;
+            background-position: center;
+            animation: bounce 1.9s ease-in-out infinite;
+            animation-delay: var(--delay);
+            transform: translateX(var(--offset)) scale(var(--scale));
+            filter: hue-rotate(var(--hue));
         }
 
-        .pulse {
-            position: relative;
-            padding-left: 26px;
-        }
-
-        .pulse::before {
+        .clone::before {
             content: "";
             position: absolute;
-            left: 6px;
-            top: 50%;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 18px var(--accent);
-            transform: translateY(-50%);
-            animation: pulse 1.6s ease-in-out infinite;
+            inset: -40% -30%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 70%);
+            opacity: 0.6;
+            animation: shimmer 2.8s linear infinite;
         }
 
-        @keyframes gradientShift {
+        .clone::after {
+            content: "Rick Roll";
+            position: absolute;
+            left: 16px;
+            bottom: 16px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.55);
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .video {
+            background: rgba(4, 12, 28, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 28px;
+            padding: 24px;
+            backdrop-filter: blur(18px);
+            box-shadow: 0 38px 70px rgba(6, 10, 26, 0.6);
+        }
+
+        .video p {
+            margin: 0 0 18px;
+            color: rgba(255, 255, 255, 0.76);
+            letter-spacing: 0.4px;
+        }
+
+        iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes gradient-shift {
             0% {
                 background-position: 0% 50%;
             }
@@ -318,135 +302,107 @@ def home():
             }
         }
 
-        @keyframes pulse {
+        @keyframes float {
             0%,
             100% {
-                transform: translateY(-50%) scale(1);
-                opacity: 0.85;
-            }
-            50% {
-                transform: translateY(-50%) scale(1.2);
-                opacity: 1;
-            }
-        }
-
-        @keyframes float {
-            0% {
                 transform: translateY(0px) scale(1);
             }
             50% {
-                transform: translateY(24px) scale(1.08);
+                transform: translateY(26px) scale(1.06);
             }
+        }
+
+        @keyframes pop {
+            0%,
             100% {
-                transform: translateY(0px) scale(1);
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-6px);
             }
         }
 
-        @media (max-width: 720px) {
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateX(var(--offset)) scale(var(--scale));
+            }
+            50% {
+                transform: translateX(calc(var(--offset) * -1)) scale(calc(var(--scale) + 0.08));
+            }
+        }
+
+        @keyframes shimmer {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 780px) {
             body {
-                padding: 20px;
+                padding: 24px;
             }
 
-            .card {
-                padding: 26px;
+            h1 {
+                font-size: 2.2rem;
             }
 
-            footer {
-                flex-direction: column;
-                align-items: flex-start;
+            .clone {
+                height: 220px;
             }
         }
     </style>
 </head>
 <body>
     <main>
-        <section class="card">
-            <header>
-                <h1>Flask Cosmic Dashboard</h1>
-                <p id="tagline">Microframework, macro energy. Screenshot this for instant extra credit.</p>
-            </header>
+        <section class="hero">
+            <h1>Rick Roll Arena</h1>
+            <p id="tagline">{{ stage }} is live. The clones are never gonna give you up.</p>
+            <div class="ticker">
+                {% for line in lyrics %}
+                <span>{{ line }}</span>
+                {% endfor %}
+            </div>
+            <div class="controls">
+                <div class="badge">Stage: {{ stage }}</div>
+                <button id="anthemButton">Launch the anthem</button>
+                <span class="timestamp">Synced at {{ timestamp }}</span>
+            </div>
+        </section>
 
-            <section class="status">
-                <div class="stat-block">
-                    <span class="stat-label">Server Time</span>
-                    <span class="stat-value" id="clock">{{ timestamp }}</span>
-                </div>
-                <div class="stat-block">
-                    <span class="stat-label">App Mood</span>
-                    <span class="stat-value">{{ mood }}</span>
-                </div>
-                <div class="stat-block">
-                    <span class="stat-label">Random Seed</span>
-                    <span class="stat-value">{{ accent }}</span>
-                </div>
-            </section>
+        <section class="grid">
+            {% for clone in clones %}
+            <div
+                class="clone"
+                style="--delay: {{ clone.delay }}s; --scale: {{ clone.scale }}; --hue: {{ clone.hue }}deg; --offset: {{ clone.offset }}px; background-image: url('{{ clone.gif }}');"
+            ></div>
+            {% endfor %}
+        </section>
 
-            <section class="fact">
-                <h2>Did you know?</h2>
-                <p id="fact">{{ fact }}</p>
-                <button id="factButton">New random fact</button>
-            </section>
-
-            <section class="tech">
-                <h2>Stack flex</h2>
-                <div class="chips">
-                    {% for item in tech_stack %}
-                    <span class="chip">{{ item }}</span>
-                    {% endfor %}
-                </div>
-            </section>
-
-            <section class="achievements">
-                <h2>Highlights</h2>
-                <ul>
-                    {% for item in achievements %}
-                    <li>{{ item }}</li>
-                    {% endfor %}
-                </ul>
-            </section>
-
-            <footer>
-                <span>Generated at {{ timestamp }}</span>
-                <span class="pulse">Live Flask endpoint</span>
-            </footer>
+        <section class="video">
+            <p>Optional bonus: fire up the original track and let the squad dance in sync.</p>
+            <iframe
+                id="anthemFrame"
+                data-base="{{ video_base }}"
+                src="about:blank"
+                title="Rick Astley - Never Gonna Give You Up"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
         </section>
     </main>
 
     <script>
-        const factButton = document.getElementById("factButton");
-        const factEl = document.getElementById("fact");
-        const clockEl = document.getElementById("clock");
-        const fallbackFacts = {{ facts|tojson }};
+        const button = document.getElementById("anthemButton");
+        const frame = document.getElementById("anthemFrame");
 
-        function tickClock() {
-            const now = new Date();
-            const options = { hour: "2-digit", minute: "2-digit", second: "2-digit" };
-            clockEl.textContent = now.toLocaleTimeString([], options);
-        }
-
-        tickClock();
-        setInterval(tickClock, 1000);
-
-        factButton.addEventListener("click", async () => {
-            factButton.disabled = true;
-            factButton.textContent = "Loading...";
-
-            try {
-                const response = await fetch("/api/random-fact");
-
-                if (!response.ok) {
-                    throw new Error("Network error");
-                }
-
-                const payload = await response.json();
-                factEl.textContent = payload.fact;
-            } catch (err) {
-                const fallback = fallbackFacts[Math.floor(Math.random() * fallbackFacts.length)];
-                factEl.textContent = fallback + " (offline mode)";
-            } finally {
-                factButton.disabled = false;
-                factButton.textContent = "New random fact";
-            }
+        button.addEventListener("click", () => {
+            frame.src = frame.dataset.base + "&autoplay=1";
+            button.disabled = true;
+            button.textContent = "Anthem playing...";
         });
     </script>
 </body>
@@ -454,18 +410,13 @@ def home():
         """,
         accent=accent,
         gradient=gradient,
-        fact=fact,
-        mood=mood,
-        timestamp=timestamp,
-        tech_stack=TECH_STACK,
-        achievements=ACHIEVEMENTS,
-        facts=FACTS,
+        stage=stage_name,
+        lyrics=lyric_choices,
+        clones=clones,
+        timestamp=datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC"),
+        video_base="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ?rel=0&modestbranding=1&start=8",
     )
 
 
-@app.route("/api/random-fact")
-def random_fact():
-    return jsonify(
-        fact=random.choice(FACTS),
-        generated_at=datetime.utcnow().isoformat() + "Z",
-    )
+if __name__ == "__main__":
+    app.run(debug=True)
